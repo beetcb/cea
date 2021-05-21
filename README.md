@@ -32,15 +32,15 @@
   // Hard coded position info
   // Randomly generated from http://api.map.baidu.com/lbsapi
   const posGenFromCitys = [
-    ['116.622631', '40.204822', '北京市顺义区X012'],
-    ['115.825701', '32.914915', '安徽省阜阳市颍泉区胜利北路79'],
-    ['119.292590', '26.164789', '福建省福州市晋安区'],
-    ['103.836093', '36.068012', '甘肃省兰州市城关区南滨河东路709'],
-    ['108.360128', '22.883516', '广西壮族自治区南宁市兴宁区'],
-    ['113.391549', '22.590350', '广东省中山市兴港中路172号'],
-    ['111.292396', '30.718343', '湖北省宜昌市西陵区珍珠路32号'],
-    ['118.793117', '32.074771', '江苏省南京市玄武区昆仑路8号'],
-  ]
+    ["116.622631", "40.204822", "北京市顺义区X012"],
+    ["115.825701", "32.914915", "安徽省阜阳市颍泉区胜利北路79"],
+    ["119.292590", "26.164789", "福建省福州市晋安区"],
+    ["103.836093", "36.068012", "甘肃省兰州市城关区南滨河东路709"],
+    ["108.360128", "22.883516", "广西壮族自治区南宁市兴宁区"],
+    ["113.391549", "22.590350", "广东省中山市兴港中路172号"],
+    ["111.292396", "30.718343", "湖北省宜昌市西陵区珍珠路32号"],
+    ["118.793117", "32.074771", "江苏省南京市玄武区昆仑路8号"],
+  ];
   ```
 
   </details>
@@ -157,29 +157,29 @@ npm i -g @beetcb/cea
    若使用 cea 作为二次开发使用，请配置好学校和用户，然后在你的项目中导入 cea，参考自动签到示例：
 
    ```js
-   const cea = require('@beetcb/cea')
+   const cea = require("@beetcb/cea");
 
-   ;(async () => {
+   (async () => {
      // Log in and save cookie to cea, using cea.get('cookie') to get them (this function resolve an users array with cookie and sign in methods)
-     const usersWithTask = await cea.handleCookie()
+     const usersWithTask = await cea.handleCookie();
      // Sign in
-     const logs = await signIn(usersWithTask)
+     const logs = await signIn(usersWithTask);
      // Print prettier logs info
-     console.table(logs)
-   })()
+     console.table(logs);
+   })();
 
    async function signIn(usersWithTask) {
-     const logs = {}
+     const logs = {};
      // sign in asynchronizedly with promise all and diff instance of signApp class
      await Promise.all(
        usersWithTask.map(async (i) => {
-         await i.sign.signWithForm()
-         logs[i.alias || i.id] = i.sign.result
+         await i.sign.signWithForm();
+         logs[i.alias || i.id] = i.sign.result;
        })
-     )
+     );
      // store cookie using sstore module
-     cea.close()
-     return logs
+     cea.close();
+     return logs;
    }
    ```
 
