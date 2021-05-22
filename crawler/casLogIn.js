@@ -30,6 +30,7 @@ module.exports = async (school, user) => {
 
   const fetch = new Fetchh(headers)
   const name = user.alias
+  const { cookiePath } = schoolEdgeCases
 
   // get base session
   res = await fetch.get(school.login)
@@ -96,7 +97,7 @@ module.exports = async (school, user) => {
           await (
             await fetch.get(
               `${school.casOrigin}${schoolEdgeCases.checkCaptchaPath}${addtionalParams}`,
-              { cookiePath: '/' }
+              { cookiePath }
             )
           ).text()
         ).includes('true')
@@ -122,7 +123,7 @@ module.exports = async (school, user) => {
   res = await fetch.follow({
     type: 'form',
     body: auth.toString(),
-    cookiePath: '/',
+    cookiePath: cookiePath,
   })
 
   const isRedirect = res.headers.get('location')
@@ -132,10 +133,10 @@ module.exports = async (school, user) => {
   }
 
   // redirect to campus
-  res = await fetch.follow({ cookiePath: '/' })
+  res = await fetch.follow({ cookiePath })
 
   // get MOD_AUTH_CAS
-  res = await fetch.follow({ cookiePath: '/' })
+  res = await fetch.follow({ cookiePath })
 
   if (/30(1|2|7|8)/.test(res.status + '')) {
     log.success(`用户${name}: 登录成功`)

@@ -1,21 +1,21 @@
 // @ts-check
 const schoolEdgeCases = {
-  武汉轻工大学: {
-    formIdx: 2,
-    checkCaptchaPath: '/checkNeedCaptcha.htl',
-    getCaptchaPath: '/getCaptcha.htl',
-  },
   宁波大学: {
+    formIdx: 0,
     rememberMe: 'on',
+    cookiePath: '/',
+    checkCaptchaPath: '/needCaptcha.html',
+    getCaptchaPath: '/captcha.html',
   },
 }
 
 // we will using proxy to get the default properties
 const defaultProps = {
   rememberMe: true,
-  checkCaptchaPath: '/needCaptcha.html',
-  getCaptchaPath: '/captcha.html',
-  formIdx: 0,
+  getCaptchaPath: '/getCaptcha.htl',
+  checkCaptchaPath: '/checkNeedCaptcha.htl',
+  cookiePath: '/authserver',
+  formIdx: 2,
   pwdEncrypt: true,
 }
 
