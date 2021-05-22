@@ -26,6 +26,11 @@
     "url": "github.com/beetcb"
   },
   "license": "MIT",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 80
+  },
   "dependencies": {
     "@beetcb/sstore": "^0.1.0",
     "@iarna/toml": "^2.2.5",

@@ -1,1 +1,1 @@
-module.exports = require("./api").conf;
+module.exports = require('./api').conf

@@ -2,29 +2,29 @@
 const schoolEdgeCases = {
   武汉轻工大学: {
     formIdx: 2,
-    checkCaptchaPath: "/checkNeedCaptcha.htl",
-    getCaptchaPath: "/getCaptcha.htl",
+    checkCaptchaPath: '/checkNeedCaptcha.htl',
+    getCaptchaPath: '/getCaptcha.htl',
   },
   宁波大学: {
-    rememberMe: "on",
+    rememberMe: 'on',
   },
-};
+}
 
 // we will using proxy to get the default properties
 const defaultProps = {
   rememberMe: true,
-  checkCaptchaPath: "/needCaptcha.html",
-  getCaptchaPath: "/captcha.html",
+  checkCaptchaPath: '/needCaptcha.html',
+  getCaptchaPath: '/captcha.html',
   formIdx: 0,
   pwdEncrypt: true,
-};
+}
 
 const iapDefaultProps = {
-  lt: "/security/lt",
+  lt: '/security/lt',
   rememberMe: true,
-  checkCaptchaPath: "/checkNeedCaptcha",
-  getCaptchaPath: "/generateCaptcha",
-};
+  checkCaptchaPath: '/checkNeedCaptcha',
+  getCaptchaPath: '/generateCaptcha',
+}
 
 /**
  * handle edge cases, proxy default properties
@@ -36,9 +36,9 @@ module.exports = (schoolName, isIap) =>
     ? new Proxy(schoolEdgeCases[schoolName] || {}, {
         get(target, prop, receiver) {
           if (target[prop] === undefined) {
-            return isIap ? iapDefaultProps[prop] : defaultProps[prop];
+            return isIap ? iapDefaultProps[prop] : defaultProps[prop]
           }
-          return Reflect.get(target, prop, receiver);
+          return Reflect.get(target, prop, receiver)
         },
       })
-    : {};
+    : {}
