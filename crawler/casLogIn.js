@@ -130,6 +130,9 @@ module.exports = async (school, user) => {
   if (!isRedirect) {
     log.error(`用户${name}：登录失败，${res.statusText}`)
     return
+  } else if (isRedirect.includes('.do')) {
+    log.error(`用户${name}：登录失败，密码安全等级低，需要修改`)
+    return
   }
 
   // redirect to campus
