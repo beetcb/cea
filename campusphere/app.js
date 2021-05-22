@@ -37,14 +37,17 @@ exports.signApp = class signApp extends campusphereApp {
       console.log(`用户${user.alias}：无效的 Cookie，尝试重新登录`)
       return true
     }
-    this.headers.cookie = cookie.campusphere
+    this.headers.cookie = cookie['campusphere::/']
     const { signApi, headers } = this
 
-    const res = await fetch(signApi.list, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({}),
-    })
+    const res = await fetch(
+      'https://nbu.campusphere.net/wec-counselor-sign-apps/stu/mobile/index.html',
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({}),
+      }
+    )
     // TODO: handle the responsed updated cookie
     if (!res.headers.get('content-type').includes('application/json')) {
       return true

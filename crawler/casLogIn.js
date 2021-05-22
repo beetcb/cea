@@ -145,7 +145,7 @@ module.exports = async (school, user) => {
     return
   }
 
-  return fetch.cookieMap
+  return fetch.getCookieObj()
 }
 
 class AES {

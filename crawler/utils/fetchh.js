@@ -60,6 +60,16 @@ exports.Fetchh = class {
     return res
   }
 
+  getCookieObj() {
+    let obj = {}
+    for (const [key, val] of this.cookieMap.entries()) {
+      const [_, feild, path] = key.match(/(.*)(::.*)/)
+      obj[`${feild.includes('campusphere') ? 'campusphere' : 'swms'}${path}`] =
+        val.reduce((str, e) => `${str}${e.join('=')}; `, '')
+    }
+    return obj
+  }
+
   updateMap(newMap) {
     if (!this.cookieMap) {
       this.cookieMap = newMap
