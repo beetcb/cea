@@ -13,7 +13,10 @@ exports.cookieParse = (host, headers) => {
 
   let [lastIdxMark, arr] = [null, []]
   for (e of rawCookies) {
-    const [_, keyVal, path] = e.match(/(.*);\spath=((\w+|\/)*)/)
+    const [_, keyVal, path] = e.match(/(.*);(?:\s?)path=((\w+|\/)*)/i)
+    if (!keyVal) {
+      continue
+    }
     const [key, val] = keyVal.split('=')
     const mapIdx = `${host}::${path}`
     if (lastIdxMark !== mapIdx) {

@@ -287,8 +287,8 @@ class School {
       name: schoolName,
       casOrigin,
       origin,
-      login: `${casOrigin}/login?service=${encodeURIComponent(
-        `${origin}/iap/loginSuccess`
+      login: `${origin}/iap/login?service=${encodeURIComponent(
+        `${origin}/portal/login`
       )}`,
       campusphere: `${origin}/portal/login`,
     }
