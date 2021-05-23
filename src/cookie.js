@@ -30,7 +30,10 @@ async function handleLogin(i, storeCookiePath) {
     cookie = await login(conf.get('school'), i)
     if (cookie) {
       conf.set(storeCookiePath, cookie)
-      log.success(`用户${name}: 已成功获取并缓存 Cookie`)
+      log.success({
+        message: `已成功获取并缓存 COOKIE`,
+        suffix: `@${name}`,
+      })
     }
   }
   const sign = new signApp(conf.get('school'), i)
@@ -41,10 +44,16 @@ async function handleLogin(i, storeCookiePath) {
     if (cookie) {
       conf.set(storeCookiePath, cookie)
       await sign.signInfo(cookie)
-      log.success(`用户${name}: 已成功刷新并缓存 Cookie`)
+      log.success({
+        message: `已成功刷新并缓存 COOKIE`,
+        suffix: `@${name}`,
+      })
     }
   } else {
-    log.success(`用户${name}: 尝试使用缓存中的 Cookie`)
+    log.success({
+      message: `尝试使用缓存中的 COOKIE`,
+      suffix: `@${name}`,
+    })
   }
   // Make use of the cur task we already have
   return sign

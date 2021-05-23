@@ -154,7 +154,7 @@ module.exports = async (school, user) => {
   res = await fetch.follow({ cookiePath })
 
   if (/30(1|2|7|8)/.test(res.status + '')) {
-    log.error({
+    log.success({
       message: `登录成功`,
       suffix: `@${name}`,
     })

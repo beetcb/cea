@@ -130,11 +130,6 @@ class User {
         name: 'alias',
         message: '(可选)请输入用户别名',
       },
-      {
-        type: 'input',
-        name: 'cookie',
-        message: '(可选,将省去登录操作)抓包到的 Cookie',
-      },
     ]
 
     const res = await prompt(questions)
@@ -143,13 +138,12 @@ class User {
       const addUser = {
         username: res.username,
         password: res.password,
-        alias: res.alias || null,
-        cookie: res.cookie,
+        alias: res.alias || res.username,
       }
       conf.set('users', [addUser, ...conf.get('users')])
-      console.log('🎉 成功添加用户', addUser)
+      log.success('🎉 成功添加用户', addUser)
     } else {
-      console.log('🙃 用户已存在')
+      log.error('🙃 用户已存在')
     }
   }
 
@@ -178,7 +172,7 @@ class User {
       .filter((el, index) => index !== res.selection)
     conf.set('users', neoUsers)
 
-    console.log('🎉 成功删除用户')
+    log.success('🎉 成功删除用户')
   }
 }
 
