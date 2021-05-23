@@ -6,8 +6,21 @@ const { User, School, conf } = require('./api')
   const argv2 = process.argv[3]
 
   switch (argv) {
-    case '-u':
-    case '--user': {
+    case '-h':
+    case '--help': {
+      console.log(`
+Usage: cea <command>
+
+All Commands: 
+      user      create|delete user
+      school    config your school info
+      sign      campusphere check in
+      load      load config info from toml file
+      rm        remove stored config feilds
+`)
+      break
+    }
+    case 'user': {
       const userUlti = new User(conf)
       await userUlti.load()
       const type = userUlti.selectType
@@ -15,13 +28,11 @@ const { User, School, conf } = require('./api')
       if (type === 2) await userUlti.deleteUser()
       break
     }
-    case '-s':
-    case '--school': {
+    case 'school': {
       await new School(conf).init()
       break
     }
-    case 'rm':
-    case '--remove': {
+    case 'rm': {
       if (argv2 === 'all') conf.clear()
       conf.del(argv2)
       break
