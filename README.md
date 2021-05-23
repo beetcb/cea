@@ -100,19 +100,13 @@ npm i -g @beetcb/cea
   交互式配置用户：
 
   ```sh
-  cea -u
-  ```
-
-  或者从 `conf.toml` 文件配置用户，同时也会配置学校
-
-  ```sh
-  cea load
+  cea user
   ```
 
 - 学校配置:
 
   ```sh
-  cea -s
+  cea school
   ```
 
 - (可选)使用文件配置用户: 根目录下创建 `conf.toml`, 参考以下示例:
