@@ -1,5 +1,5 @@
 const conf = require('./cookie')
-const log = require('../interface/colorLog')
+const log = require('./utils/logger')
 const fs = require('fs')
 const fetch = require('node-fetch')
 const { prompt } = require('inquirer')
@@ -21,11 +21,11 @@ conf.init = async function () {
   const schoolUlti = new School()
 
   if (env.users && env.school) {
-    log.warning('尝试从环境变量加载配置')
+    log.warn({ message: '尝试从环境变量加载配置' })
     const users = userUlti.loadUserFromEnv(env)
     await schoolUlti.loadSchoolFromEnv(env, users)
   } else if (toml) {
-    log.warning('尝试从配置文件加载配置')
+    log.warn({ message: '尝试从配置文件加载配置' })
     userUlti.loadUserFromToml(toml)
     await schoolUlti.loadSchoolFromToml(toml)
   }
@@ -54,12 +54,12 @@ class User {
 
   loadUserFromToml(toml) {
     this.storeUsers(toml.users)
-    console.warn(
-      `用户${toml.users.reduce(
+    log.success({
+      message: `用户${toml.users.reduce(
         (acc, user) => `${acc}${user.alias} `,
         ' '
-      )}已加载`
-    )
+      )}已加载`,
+    })
   }
 
   loadUserFromEnv({ users }) {
@@ -71,7 +71,7 @@ class User {
         return { username, password, alias, addr }
       })
       this.storeUsers(loadedUsers)
-      console.warn(
+      log.warn(
         `用户${loadedUsers.reduce(
           (acc, user) => `${acc}${user.alias} `,
           ' '
@@ -147,9 +147,9 @@ class User {
         cookie: res.cookie,
       }
       conf.set('users', [addUser, ...conf.get('users')])
-      log.success('🎉 成功添加用户', addUser)
+      console.log('🎉 成功添加用户', addUser)
     } else {
-      log.error('🙃 用户已存在')
+      console.log('🙃 用户已存在')
     }
   }
 
@@ -178,7 +178,7 @@ class User {
       .filter((el, index) => index !== res.selection)
     conf.set('users', neoUsers)
 
-    log.success('🎉 成功删除用户')
+    console.log('🎉 成功删除用户')
   }
 }
 
@@ -199,9 +199,9 @@ class School {
 
       school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`你的学校 ${school.name} 已完成设定`)
+      log.success({ message: `你的学校 ${school.name} 已完成设定` })
     } else {
-      log.warning('学校信息已配置')
+      log.warn({ message: '学校信息已配置' })
     }
   }
 
@@ -211,7 +211,7 @@ class School {
       if (toml.users.some((e) => e.addr === ''))
         school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`你的学校 ${school.name} 已完成设定`)
+      log.success({ message: `你的学校 ${school.name} 已完成设定` })
     }
   }
 
@@ -226,9 +226,9 @@ class School {
       if (users.some((e) => e.addr === ''))
         school.addr = await this.schoolAddr(school.name)
       conf.set('school', school)
-      log.success(`你的学校已完成设定`)
+      log.success({ message: `你的学校 ${school.name} 已完成设定` })
     } else {
-      log.warning('学校信息已配置')
+      log.warn({ message: '学校信息已配置' })
     }
   }
 
@@ -280,7 +280,7 @@ class School {
     // Proxy the host who blocks foreign ip access
     if (process.env.GITHUB_ACTION && name === 'whpu') {
       casOrigin = 'http://whpu.beetcb.com/authserver'
-      console.warn('尝试使用代理访问学校登录页面')
+      log.warn({ message: `使用代理访问${schoolName}` })
     }
 
     return {

@@ -14,11 +14,10 @@ async function downloadTessdata() {
       return
     }
   }
-  const result = await download(
+  await download(
     'https://beetcb.gitee.io/filetransfer/tmp/eng.traineddata.gz',
     tessdataPath
   )
-  console.log(result)
 }
 
 async function download(url, filename) {

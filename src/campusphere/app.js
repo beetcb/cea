@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const crypto = require('crypto')
+const log = require('../utils/logger')
 const { v1 } = require('uuid')
 
 class campusphereApp {
@@ -34,7 +35,6 @@ exports.signApp = class signApp extends campusphereApp {
   async signInfo(cookie) {
     const user = process.env[this.id]
     if (!cookie) {
-      console.log(`用户${user.alias}：无效的 Cookie，尝试重新登录`)
       return true
     }
     this.headers.cookie = cookie['campusphere::/']
@@ -61,7 +61,7 @@ exports.signApp = class signApp extends campusphereApp {
 
   async signWithForm() {
     if (!this.curTask) {
-      this.result = { 签到结果: '今日签到任务已完成，取消签到' }
+      this.result = { 签到结果: '今日签到任务已完成或COOKIE无效，取消签到' }
       return
     }
     const { signApi, headers } = this

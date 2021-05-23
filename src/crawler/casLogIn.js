@@ -1,7 +1,7 @@
 const cheerio = require('cheerio')
 const crypto = require('crypto')
-const log = require('../interface/colorLog')
 const ocr = require('./captcha')
+const log = require('../utils/logger')
 
 const { Fetchh } = require('./utils/fetchh')
 
@@ -104,7 +104,10 @@ module.exports = async (school, user) => {
       : hiddenInputNameValueMap.needCaptcha
 
   if (needCaptcha) {
-    log.warning(`用户${name}: 登录需要验证码，正在用 OCR 识别`)
+    log.warn({
+      message: '登录需要验证码，正在用 OCR 识别',
+      suffix: `@${name}`,
+    })
     const captcha = (
       await ocr(
         `${school.casOrigin}${schoolEdgeCases.getCaptchaPath}${addtionalParams}`
@@ -112,10 +115,16 @@ module.exports = async (school, user) => {
     ).replace(/\s/g, '')
 
     if (captcha.length >= 4) {
-      log.warning(`用户${name}: 使用验证码 ${captcha} 登录`)
+      log.success({
+        message: `使用验证码 ${captcha} 登录`,
+        suffix: `@${name}`,
+      })
       auth.append('captcha', captcha)
     } else {
-      log.warning(`用户${name}: 验证码识别失败，长度${captcha.length}错误`)
+      log.error({
+        message: `验证码识别失败，长度${captcha.length}错误`,
+        suffix: `@${name}`,
+      })
       return
     }
   }
@@ -128,10 +137,13 @@ module.exports = async (school, user) => {
 
   const isRedirect = res.headers.get('location')
   if (!isRedirect) {
-    log.error(`用户${name}：登录失败，${res.statusText}`)
+    log.error({ message: `登录失败，${res.statusText}`, suffix: `@${name}` })
     return
   } else if (isRedirect.includes('.do')) {
-    log.error(`用户${name}：登录失败，密码安全等级低，需要修改`)
+    log.error({
+      message: `登录失败，密码安全等级低，需要修改`,
+      suffix: `@${name}`,
+    })
     return
   }
 
@@ -142,9 +154,15 @@ module.exports = async (school, user) => {
   res = await fetch.follow({ cookiePath })
 
   if (/30(1|2|7|8)/.test(res.status + '')) {
-    log.success(`用户${name}: 登录成功`)
+    log.error({
+      message: `登录成功`,
+      suffix: `@${name}`,
+    })
   } else {
-    log.error(`用户${name}：登录失败，${res.statusText}`)
+    log.error({
+      message: `登录失败，${res.statusText}`,
+      suffix: `@${name}`,
+    })
     return
   }
 

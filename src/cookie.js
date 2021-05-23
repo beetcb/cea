@@ -1,7 +1,7 @@
 const conf = require('@beetcb/sstore')
-const log = require('../interface/colorLog')
-const login = require('../crawler/casLogIn')
-const { signApp } = require('../campusphere/app')
+const log = require('./utils/logger')
+const login = require('./crawler/casLogIn')
+const { signApp } = require('./campusphere/app')
 
 conf.handleCookie = async () => {
   // Return: users with curTask
